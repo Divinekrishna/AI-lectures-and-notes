@@ -54,11 +54,13 @@ test:
 # Lint code
 lint:
 	@echo "🔍 Running code linting..."
-	@if command -v flake8 > /dev/null; then \
-		flake8 app.py file_handler.py llm_handler.py --max-line-length=120 --ignore=E501,W503; \
+	@LINT_FAILED=0; \
+	if command -v flake8 > /dev/null; then \
+		flake8 app.py file_handler.py llm_handler.py --max-line-length=120 --ignore=E501,W503 || LINT_FAILED=1; \
 	else \
 		echo "⚠️  flake8 not installed. Run: pip install flake8"; \
-	fi
+	fi; \
+	exit $$LINT_FAILED
 
 # Format code
 format:

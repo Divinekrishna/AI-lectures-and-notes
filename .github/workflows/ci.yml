@@ -36,11 +36,11 @@ jobs:
     
     - name: Run Black formatter check
       run: |
-        black --check --line-length=120 app.py file_handler.py llm_handler.py || true
+        black --check --line-length=120 app.py file_handler.py llm_handler.py
     
     - name: Run Flake8 linter
       run: |
-        flake8 app.py file_handler.py llm_handler.py --max-line-length=120 --ignore=E501,W503 || true
+        flake8 app.py file_handler.py llm_handler.py --max-line-length=120 --ignore=E501,W503
 
   test:
     name: Run Tests
@@ -108,12 +108,14 @@ jobs:
         pip install -r requirements.txt
     
     - name: Run Safety check for dependencies
+      continue-on-error: true
       run: |
-        safety check --ignore 70612 || true
+        safety check --ignore 70612
     
     - name: Run Bandit security linter
+      continue-on-error: true
       run: |
-        bandit -r . -f json -o bandit-report.json || true
+        bandit -r . -f json -o bandit-report.json
     
     - name: Upload Bandit report
       if: always()

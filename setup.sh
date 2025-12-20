@@ -76,8 +76,15 @@ if [ ! -f .env ]; then
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         read -p "Enter your OpenAI API key: " api_key
         if [ ! -z "$api_key" ]; then
-            sed -i.bak "s/your_openai_api_key_here/$api_key/" .env
-            rm .env.bak 2>/dev/null || true
+            # Use Python for safe string replacement
+            python3 -c "
+import re
+with open('.env', 'r') as f:
+    content = f.read()
+content = content.replace('your_openai_api_key_here', '''$api_key''')
+with open('.env', 'w') as f:
+    f.write(content)
+"
             echo -e "${GREEN}✓ API key saved to .env${NC}"
         fi
     fi

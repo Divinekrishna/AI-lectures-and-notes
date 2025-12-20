@@ -53,7 +53,7 @@ def main():
     
     # Check required environment variables
     print("\n📋 Checking Environment Variables:")
-    all_checks_passed &= check_env_variable('OPENAI_API_KEY', required=True)
+    all_checks_passed = check_env_variable('OPENAI_API_KEY', required=True) and all_checks_passed
     check_env_variable('UPLOAD_FOLDER', required=False)
     check_env_variable('MAX_FILE_SIZE', required=False)
     check_env_variable('DEFAULT_LANGUAGE', required=False)
@@ -66,7 +66,7 @@ def main():
     
     # Check required files
     print("\n📄 Checking Files:")
-    all_checks_passed &= check_file('.env')
+    all_checks_passed = check_file('.env') and all_checks_passed
     check_file('requirements.txt')
     check_file('app.py')
     

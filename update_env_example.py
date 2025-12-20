@@ -8,7 +8,10 @@ from pathlib import Path
 
 def sanitize_value(key, value):
     """Replace actual values with placeholders for example file."""
-    sensitive_keywords = ['KEY', 'SECRET', 'TOKEN', 'PASSWORD', 'CREDENTIAL']
+    sensitive_keywords = [
+        'KEY', 'SECRET', 'TOKEN', 'PASSWORD', 'CREDENTIAL',
+        'PRIVATE', 'AUTH', 'CERT', 'SIGNATURE', 'HASH'
+    ]
     
     if any(keyword in key.upper() for keyword in sensitive_keywords):
         # Replace actual keys/secrets with placeholder
