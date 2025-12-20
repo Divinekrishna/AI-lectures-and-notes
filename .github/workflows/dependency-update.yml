@@ -6,10 +6,18 @@ on:
     - cron: '0 9 * * 1'
   workflow_dispatch:
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   update-dependencies:
     name: Check and Update Dependencies
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      actions: read
     
     steps:
     - name: Checkout code
