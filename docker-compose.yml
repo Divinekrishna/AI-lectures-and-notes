@@ -2,12 +2,30 @@ version: '3.8'
 
 services:
   ai-app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-learning-assistant
     ports:
       - "8501:8501"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - UPLOAD_FOLDER=${UPLOAD_FOLDER:-uploads}
+      - MAX_FILE_SIZE=${MAX_FILE_SIZE:-52428800}
+      - DEFAULT_LANGUAGE=${DEFAULT_LANGUAGE:-en}
     volumes:
       - ./uploads:/app/uploads
       - ./temp:/app/temp
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - ai-network
+
+networks:
+  ai-network:
+    driver: bridge

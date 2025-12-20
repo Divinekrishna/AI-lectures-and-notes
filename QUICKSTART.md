@@ -6,10 +6,28 @@
 ```bash
 # 1. Install Python 3.11+
 # 2. Get OpenAI API key from https://platform.openai.com/api-keys
-# 3. Create .env file with your API key
 ```
 
-### Setup in 3 Steps
+### Automated Setup (Recommended)
+
+**Step 1**: Run the automated setup script
+```bash
+cd ai_app
+./setup.sh
+```
+
+This will automatically:
+- Install dependencies
+- Create necessary directories
+- Set up .env file
+- Verify environment
+
+**Step 2**: Open browser
+```
+http://localhost:8501
+```
+
+### Manual Setup (Alternative)
 
 **Step 1**: Set up environment
 ```bash
@@ -21,23 +39,34 @@ cp .env.example .env
 **Step 2**: Install dependencies
 ```bash
 pip install -r requirements.txt
+# Or use: make install
 ```
 
 **Step 3**: Run the app
 ```bash
 streamlit run app.py
+# Or use: make run
 ```
 
 ## Using Docker
 
-**Step 1**: Build and run
+### Automated Deployment
+
+**Step 1**: Start with one command
 ```bash
-docker-compose up --build
+make docker-run
+# Or: docker-compose up --build
 ```
 
 **Step 2**: Open browser
 ```
 http://localhost:8501
+```
+
+### Stop the application
+```bash
+make docker-stop
+# Or: docker-compose down
 ```
 
 ## Feature Guide
@@ -83,8 +112,9 @@ http://localhost:8501
 
 ### Application won't start
 ```bash
-# Check Python version
-python --version  # Should be 3.11+
+# Verify environment
+make verify
+# Or: python verify_env.py
 
 # Reinstall dependencies
 pip install -r requirements.txt --force-reinstall
@@ -141,7 +171,34 @@ docker-compose up --build
 | Chat response | 2-5s | ~$0.005 |
 
 ## Next Steps
+
+### For Users
 - Customize app appearance (see app.py CSS section)
 - Add more file format support
 - Integrate with other AI models
 - Deploy to cloud (Heroku, AWS, GCP)
+
+### For Developers
+- Explore automation features: See [AUTOMATION.md](AUTOMATION.md)
+- Contribute to the project: See [CONTRIBUTING.md](CONTRIBUTING.md)
+- Run tests: `make test`
+- Check code quality: `make lint`
+- Use pre-commit hooks for automatic checks
+
+## Automation Commands
+
+Quick reference for automated tasks:
+
+```bash
+make help          # Show all commands
+make setup         # Complete setup
+make verify        # Verify environment
+make test          # Run tests
+make lint          # Check code quality
+make format        # Format code
+make run           # Start application
+make docker-run    # Run in Docker
+make clean         # Clean temp files
+```
+
+For detailed automation documentation, see [AUTOMATION.md](AUTOMATION.md).

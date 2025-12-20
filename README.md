@@ -1,11 +1,34 @@
 # AI Learning Assistant Project
 
+[![CI/CD Pipeline](https://github.com/Divinekrishna/AI-lectures-and-notes/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/Divinekrishna/AI-lectures-and-notes/actions)
+
 ## Overview
 An AI-powered learning application built with Streamlit that allows users to:
 - Upload and manage learning resources (PDFs, documents, lectures)
 - Process lectures with AI-generated summaries and translations
 - Chat with an intelligent assistant about uploaded resources
 - Find relevant learning materials based on queries
+
+## 🚀 Automation Features
+
+This project includes comprehensive automation to streamline development and deployment:
+
+### ✅ Automated Setup
+- **One-command setup**: `./setup.sh` or `make setup`
+- **Environment verification**: Automatic validation of dependencies and configuration
+- **Directory initialization**: Auto-creation of required folders
+
+### 🔄 CI/CD Pipeline
+- **Automated testing**: Tests run on every push and pull request
+- **Code quality checks**: Linting and formatting validation
+- **Security scanning**: Dependency vulnerability detection
+- **Docker builds**: Automated container image creation
+
+### 🛠️ Development Tools
+- **Makefile**: Common tasks automated (test, lint, format, run)
+- **Pre-commit hooks**: Code quality checks before every commit
+- **Dependency management**: Weekly automated security scans
+- **Testing framework**: Comprehensive test suite with coverage reports
 
 ## Features
 - 🎙️ **Lecture Processing**: Extract text, generate summaries, translate content
@@ -40,7 +63,34 @@ ai_app/
 - Docker (optional, for containerized deployment)
 - OpenAI API Key
 
-### Local Setup
+### Quick Setup (Automated)
+
+The easiest way to set up the project is using the automated setup script:
+
+```bash
+# Clone the repository (if not already done)
+git clone <repository-url>
+cd ai_app
+
+# Run automated setup
+./setup.sh
+```
+
+Or use the Makefile:
+
+```bash
+make setup
+```
+
+This will automatically:
+- Install all Python dependencies
+- Create necessary directories
+- Set up your .env file
+- Verify the environment
+
+### Manual Setup
+
+If you prefer manual setup:
 
 1. **Clone or navigate to project directory**
    ```bash
@@ -62,9 +112,20 @@ ai_app/
    pip install -r requirements.txt
    ```
 
-5. **Run the application**
+5. **Create required directories**
+   ```bash
+   mkdir -p uploads temp
+   ```
+
+6. **Verify setup**
+   ```bash
+   python verify_env.py
+   ```
+
+7. **Run the application**
    ```bash
    streamlit run app.py
+   # Or use: make run
    ```
 
    The app will be available at `http://localhost:8501`
@@ -182,16 +243,76 @@ The application uses OpenAI's GPT models for:
 
 ## Development
 
+### Development Tools
+
+The project includes comprehensive automation tools:
+
+#### Makefile Commands
+```bash
+make help          # Show all available commands
+make install       # Install dependencies
+make setup         # Complete project setup
+make verify        # Verify environment
+make test          # Run tests
+make lint          # Run code linting
+make format        # Format code
+make clean         # Clean temporary files
+make run           # Run the application
+make docker-build  # Build Docker image
+make docker-run    # Run in Docker
+```
+
+#### Pre-commit Hooks
+
+Install pre-commit hooks to automatically check code quality:
+
+```bash
+pip install pre-commit
+pre-commit install
+```
+
+This will run checks on every commit:
+- Code formatting (Black)
+- Linting (Flake8)
+- Security checks (Bandit)
+- Import sorting (isort)
+- File consistency checks
+
+### Running Tests
+
+```bash
+# Install development dependencies
+pip install -r requirements-dev.txt
+
+# Run all tests
+make test
+
+# Or use pytest directly
+pytest tests/ -v
+```
+
+### CI/CD Pipeline
+
+The project includes automated GitHub Actions workflows:
+
+- **CI Pipeline** (`.github/workflows/ci.yml`)
+  - Code quality checks (linting, formatting)
+  - Automated testing
+  - Security scanning
+  - Docker image building
+
+- **Dependency Updates** (`.github/workflows/dependency-update.yml`)
+  - Weekly dependency security scans
+  - Automated vulnerability reporting
+  - Outdated package detection
+
 ### Adding New Features
 1. Create new utility modules in `src/utils/`
 2. Add new pages in `app.py` using Streamlit columns/tabs
 3. Update requirements.txt with new dependencies
-4. Test locally before deploying
-
-### Running Tests (Future)
-```bash
-pytest tests/
-```
+4. Add tests in `tests/` directory
+5. Run `make lint` and `make test` before committing
+6. Commit changes (pre-commit hooks will run automatically)
 
 ## Performance Tips
 - Upload files < 10MB for faster processing
