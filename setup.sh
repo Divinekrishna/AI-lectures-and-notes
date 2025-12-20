@@ -78,7 +78,6 @@ if [ ! -f .env ]; then
         if [ ! -z "$api_key" ]; then
             # Use Python for safe string replacement
             python3 -c "
-import re
 with open('.env', 'r') as f:
     content = f.read()
 content = content.replace('your_openai_api_key_here', '''$api_key''')
