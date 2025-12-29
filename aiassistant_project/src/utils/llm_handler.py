@@ -23,18 +23,8 @@ class LLMHandler:
             )
             return response.choices[0].message.content
         except Exception as e:
-            error_msg = str(e)
             print(f"Error in chat request: {e}")
-            
-            # Provide specific error messages
-            if "429" in error_msg or "quota" in error_msg.lower():
-                return "❌ **API Quota Exceeded**\n\nYour OpenAI account has exceeded its quota. Please:\n1. Check billing at https://platform.openai.com/account/billing\n2. Add a payment method\n3. Or wait if you've hit rate limits"
-            elif "401" in error_msg or "unauthorized" in error_msg.lower():
-                return "❌ **Invalid API Key**\n\nThe API key is invalid. Please check your .env file and update with a valid key from https://platform.openai.com/api-keys"
-            elif "timeout" in error_msg.lower():
-                return "❌ **Connection Timeout**\n\nFailed to connect to OpenAI. Please check your internet connection and try again."
-            else:
-                return f"❌ **Error**: {error_msg[:200]}"
+            return "Sorry, I encountered an error processing your request."
     
     def generate_text(self, prompt: str, temperature: float = 0.7) -> str:
         """Generate text based on a prompt."""
