@@ -4,6 +4,17 @@ from dotenv import load_dotenv
 from src.utils.file_handler import FileHandler
 from src.utils.llm_handler import LLMHandler
 
+# Optional imports for URL features
+try:
+    import yt_dlp
+except ImportError:
+    yt_dlp = None
+
+try:
+    import requests
+except ImportError:
+    requests = None
+
 # Load environment variables
 load_dotenv()
 
@@ -99,48 +110,157 @@ if page == "🏠 Home":
 elif page == "📤 Upload Resources":
     st.title("📤 Upload Resources")
     
-    col1, col2 = st.columns([2, 1])
+    # Create tabs for different upload methods
+    tab1, tab2 = st.tabs(["📁 Upload Files", "🌐 From URL"])
     
-    with col1:
-        uploaded_files = st.file_uploader(
-            "Upload your resources (PDF, TXT, DOCX, MP3, WAV, MP4)",
-            accept_multiple_files=True,
-            type=['pdf', 'txt', 'docx', 'mp3', 'wav', 'mp4']
-        )
+    with tab1:
+        col1, col2 = st.columns([2, 1])
         
-        if uploaded_files:
-            for uploaded_file in uploaded_files:
-                if st.session_state.file_handler.is_supported_format(uploaded_file.name):
-                    file_path = st.session_state.file_handler.save_uploaded_file(uploaded_file, 'resources')
-                    if file_path:
-                        st.session_state.uploaded_resources.append({
-                            'name': uploaded_file.name,
-                            'path': file_path,
-                            'size': st.session_state.file_handler.get_file_size_mb(file_path)
-                        })
-                        st.success(f"✅ {uploaded_file.name} uploaded successfully!")
+        with col1:
+            uploaded_files = st.file_uploader(
+                "Upload your resources (PDF, TXT, DOCX, MP3, WAV, MP4)",
+                accept_multiple_files=True,
+                type=['pdf', 'txt', 'docx', 'mp3', 'wav', 'mp4']
+            )
+            
+            if uploaded_files:
+                for uploaded_file in uploaded_files:
+                    if st.session_state.file_handler.is_supported_format(uploaded_file.name):
+                        file_path = st.session_state.file_handler.save_uploaded_file(uploaded_file, 'resources')
+                        if file_path:
+                            st.session_state.uploaded_resources.append({
+                                'name': uploaded_file.name,
+                                'path': file_path,
+                                'size': st.session_state.file_handler.get_file_size_mb(file_path),
+                                'type': 'file'
+                            })
+                            st.success(f"✅ {uploaded_file.name} uploaded successfully!")
+        
+        with col2:
+            st.metric("Uploaded Resources", len(st.session_state.uploaded_resources))
     
-    with col2:
-        st.metric("Uploaded Resources", len(st.session_state.uploaded_resources))
+    with tab2:
+        st.subheader("Add Resource from URL")
+        
+        url_type = st.radio("Select source type:", ["YouTube", "Google Classroom", "Direct URL"])
+        
+        if url_type == "YouTube":
+            yt_url = st.text_input("Enter YouTube URL", placeholder="https://www.youtube.com/watch?v=...")
+            if st.button("📥 Download from YouTube"):
+                if yt_url:
+                    with st.spinner("Downloading YouTube video..."):
+                        try:
+                            if not yt_dlp:
+                                st.error("yt-dlp not installed. Please install it first.")
+                            else:
+                                ydl_opts = {
+                                    'format': 'best',
+                                    'outtmpl': 'uploads/resources/%(title)s.%(ext)s',
+                                    'quiet': True,
+                                }
+                                
+                                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                                    info = ydl.extract_info(yt_url, download=True)
+                                    filename = info.get('title', 'video')
+                                    ext = info.get('ext', 'mp4')
+                                    file_path = f'uploads/resources/{filename}.{ext}'
+                                    
+                                    st.session_state.uploaded_resources.append({
+                                        'name': f"{filename} (YouTube)",
+                                        'path': file_path,
+                                        'size': 0,
+                                        'type': 'youtube'
+                                    })
+                                    st.success(f"✅ Downloaded: {filename}")
+                        except Exception as e:
+                            st.error(f"❌ Error downloading: {str(e)}")
+                else:
+                    st.warning("Please enter a YouTube URL")
+        
+        elif url_type == "Google Classroom":
+            gc_url = st.text_input("Enter Google Classroom assignment/post URL", 
+                                   placeholder="https://classroom.google.com/...")
+            gc_info = st.text_area("Paste assignment details or content", height=100)
+            
+            if st.button("📥 Add from Google Classroom"):
+                if gc_url or gc_info:
+                    try:
+                        # Save as text file
+                        content = f"URL: {gc_url}\n\n{gc_info}"
+                        file_path = f"uploads/resources/classroom_{len(st.session_state.uploaded_resources)}.txt"
+                        os.makedirs('uploads/resources', exist_ok=True)
+                        with open(file_path, 'w', encoding='utf-8') as f:
+                            f.write(content)
+                        
+                        st.session_state.uploaded_resources.append({
+                            'name': f"Classroom Assignment {len(st.session_state.uploaded_resources) + 1}",
+                            'path': file_path,
+                            'size': len(content) / (1024 * 1024),
+                            'type': 'classroom'
+                        })
+                        st.success("✅ Added Google Classroom content!")
+                    except Exception as e:
+                        st.error(f"❌ Error: {str(e)}")
+                else:
+                    st.warning("Please enter URL or content")
+        
+        else:  # Direct URL
+            direct_url = st.text_input("Enter direct URL to file", 
+                                      placeholder="https://example.com/file.pdf")
+            
+            if st.button("📥 Download from URL"):
+                if direct_url:
+                    with st.spinner("Downloading file..."):
+                        try:
+                            if not requests:
+                                st.error("requests module not installed.")
+                            else:
+                                response = requests.get(direct_url, timeout=30)
+                                
+                                # Extract filename from URL
+                                filename = direct_url.split('/')[-1].split('?')[0] or 'downloaded_file'
+                                file_path = f"uploads/resources/{filename}"
+                                
+                                os.makedirs('uploads/resources', exist_ok=True)
+                                with open(file_path, 'wb') as f:
+                                    f.write(response.content)
+                                
+                                file_size = len(response.content) / (1024 * 1024)
+                                st.session_state.uploaded_resources.append({
+                                    'name': filename,
+                                    'path': file_path,
+                                    'size': file_size,
+                                    'type': 'url'
+                                })
+                                st.success(f"✅ Downloaded: {filename}")
+                        except Exception as e:
+                            st.error(f"❌ Error downloading: {str(e)}")
+                else:
+                    st.warning("Please enter a valid URL")
     
     st.divider()
     
     if st.session_state.uploaded_resources:
-        st.subheader("Uploaded Resources")
+        st.subheader("📚 All Resources")
         for idx, resource in enumerate(st.session_state.uploaded_resources):
-            col1, col2, col3 = st.columns([3, 1, 1])
+            col1, col2, col3, col4 = st.columns([3, 1, 1, 1])
             with col1:
-                st.write(f"📄 {resource['name']}")
+                resource_type = resource.get('type', 'file')
+                icon = "🎥" if resource_type == "youtube" else "📚" if resource_type == "classroom" else "🔗" if resource_type == "url" else "📄"
+                st.write(f"{icon} {resource['name']}")
             with col2:
                 st.write(f"{resource['size']:.2f} MB")
             with col3:
-                if st.button("❌ Delete", key=f"del_{idx}"):
+                st.write(f"({resource.get('type', 'file')})")
+            with col4:
+                if st.button("❌", key=f"del_{idx}"):
                     try:
-                        os.remove(resource['path'])
+                        if os.path.exists(resource['path']):
+                            os.remove(resource['path'])
                         st.session_state.uploaded_resources.pop(idx)
                         st.rerun()
                     except:
-                        st.error("Error deleting file")
+                        st.error("Error deleting resource")
 
 elif page == "🎙️ Lecture Processing":
     st.title("🎙️ Lecture Processing")
@@ -248,6 +368,6 @@ elif page == "🔍 Resource Finder":
 st.divider()
 st.markdown("---")
 st.markdown(
-    "<p style='text-align: center; color: gray;'>AI Learning Assistant v1.0 | Powered by OpenAI</p>",
+    "<p style='text-align: center; color: gray;'>AI Learning Assistant v1.0 | Powered by Google Gemini</p>",
     unsafe_allow_html=True
 )

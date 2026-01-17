@@ -1,0 +1,238 @@
+# 🚀 2025 Student Developer Roadmap: ML & DSA
+**Goal:** Hackathon Wins, Connections, and Internship Offer by Summer.
+**Current Status:** Endsems ongoing (ends Jan 2).
+**Background:** ML Basics done, DSA Theory done.
+
+---
+
+## 🗓️ PHASE 0: The "Exam Gap" Strategy (Now – Jan 2)
+**Constraint:** 1 Hour per day maximum.
+**Focus:** Maintenance & Setup (Low Stress).
+
+* **Daily Routine (1 Hour):**
+    * [ ] **20 Mins (DSA):** Solve 1 "Easy" problem on LeetCode/GFG.
+        * *Topic:* Arrays or Strings.
+        * *Goal:* Just keep the muscle memory alive. Don't tackle hard graphs yet.
+    * [ ] **40 Mins (ML Prep):**
+        * Day 1: Create a GitHub account (if not done) & install Git.
+        * Day 2: Download "TMDB 5000 Movie Dataset" from Kaggle.
+        * Day 3: Watch a 20-min tutorial on "Streamlit for Python".
+        * Day 4: Explore "Unstop" and "Devfolio" websites for upcoming hackathons in Jan.
+
+---
+
+## 🗓️ PHASE 1: The "Golden Month" (Jan 3 – Jan 31)
+**Goal:** Build 1 deployable project + Establish DSA consistency.
+
+### 🟢 Week 1 (Jan 3 - Jan 9): The Builder's Foundation
+* **DSA Focus:** Arrays, Hashing, Two Pointers.
+    * *Task:* Solve "Two Sum" and "Contains Duplicate" (LeetCode).
+* **ML Focus:** Git & Environment.
+    * *Task:* Learn how to push code to GitHub via terminal.
+    * *Task:* Build a "Hello World" app in Streamlit and run it locally.
+
+### 🟡 Week 2 (Jan 10 - Jan 16): The "Flagship" Project
+* **DSA Focus:** Sliding Window, Stacks, Queues.
+* **ML Focus:** Build **"The Movie Recommender"**.
+    * *Step 1:* Clean the Kaggle data using Pandas.
+    * *Step 2:* Use Cosine Similarity to find similar movies.
+    * *Step 3:* Wrap it in Streamlit (Dropdown menu -> Show Recommendations).
+    * *Step 4:* **DEPLOY** it on Streamlit Cloud (Free).
+
+### 🟠 Week 3 (Jan 17 - Jan 23): Hackathon Mode
+* **DSA Focus:** Recursion, Linked Lists.
+* **Hackathon Task:**
+    * Register for an *online* hackathon on Unstop/Devfolio.
+    * Even if you don't win, submit a project.
+    * *Goal:* Add the "Hackathon Participant" badge to your LinkedIn.
+
+### 🔴 Week 4 (Jan 24 - Jan 31): Branding & Resume
+* **DSA Focus:** Trees (BST), Introduction to Graphs (BFS/DFS).
+* **Career Task:**
+    * **Resume Update:** Add a "Projects" section. Link your deployed Movie Recommender.
+    * **LinkedIn:** Post a video demo of your project. Tag 5 connections.
+    * **Apply:** Send 5 cold emails/messages to startup founders or professors for internships.
+
+---
+
+## 🗓️ PHASE 2: Semester Maintenance (Feb Onwards)
+**Goal:** Consistency without burnout.
+This is a fantastic adjustment. It makes your schedule packed but highly productive. By Jan 20, you will have your ML basics sorted, a SWOC contribution (hopefully), and be ready to dive into JavaScript.
+
+Here is your **Revised "Sprint" Roadmap (Jan 13 - Jan 20)**.
+
+### **The Daily Routine (The "45-Minute Rule")**
+
+Before you touch ML or Web, pay your "DSA Tax."
+
+* **Slot 1 (Morning/Start):** **45 Mins DSA**. (1 LeetCode Problem).
+* **Slot 2 (Deep Work):** **2-3 Hours**. (PyTorch/ML Learning).
+* **Slot 3 (Application):** **1 Hour**. (SWOC Contribution/hunting).
+
+---
+
+### **Day-by-Day Plan**
+
+#### **Day 1: Jan 13 (Today) - The Setup**
+
+* **DSA (45m):** Topic: **Arrays**.
+* *Problem:* "Move Zeroes" (LeetCode 283). Focus on moving elements without making a copy.
+
+
+* **ML/PyTorch:**
+* **Goal:** Understand **Tensors**. (They are just Numpy arrays that run on GPU).
+* **Task:** Install PyTorch. Create random tensors, reshape them (`.view()`), and do basic math (add, multiply).
+* **Resource:** `torch.tensor`, `torch.randn`.
+
+
+* **SWOC:** Join the Discord servers of 2-3 organizations. Introduce yourself.
+
+#### **Day 2: Jan 14 - The Magic of Autograd**
+
+* **DSA (45m):** Topic: **Strings**.
+* *Problem:* "Valid Anagram" (LeetCode 242). Use a Hash Map (dictionary).
+
+
+* **ML/PyTorch:**
+* **Goal:** Understand **Gradient Descent**.
+* **Concept:** How `loss.backward()` calculates gradients automatically. You don't need to do calculus; PyTorch does it for you.
+* **Task:** Implement "Linear Regression" from scratch using PyTorch (predicting `y = 2x + 1`).
+
+
+
+#### **Day 3: Jan 15 - The Training Loop (Crucial)**
+
+* **DSA (45m):** Topic: **Two Pointers**.
+* *Problem:* "Squares of a Sorted Array" (LeetCode 977).
+
+
+* **ML/PyTorch:**
+* **Goal:** Memorize the 5 Steps.
+* **Code:**
+1. `optimizer.zero_grad()`
+2. `output = model(input)` (Forward pass)
+3. `loss = criterion(output, target)` (Calculate error)
+4. `loss.backward()` (Calculate gradients)
+5. `optimizer.step()` (Update weights)
+
+
+* **Task:** Train a tiny network on dummy data.
+
+
+
+#### **Day 4: Jan 16 - Computer Vision Basics (CNNs)**
+
+* **DSA (45m):** Topic: **Sliding Window**.
+* *Problem:* "Max Sum Subarray of size K" (The one we discussed).
+
+
+* **ML/PyTorch:**
+* **Goal:** Move beyond numbers to **Images**.
+* **Task:** Load the **MNIST Dataset** (Handwritten digits) using `torchvision`.
+* **Project:** Build a simple classifier that predicts if an image is a '7' or a '1'.
+
+
+
+#### **Day 5: Jan 17 - SWOC Action Day**
+
+* **DSA (45m):** Topic: **Binary Search**.
+* *Problem:* "Binary Search" (LeetCode 704) - Standard implementation.
+
+
+* **SWOC Focus:**
+* **Goal:** Make a Pull Request (PR).
+* **Strategy:** Go to a Python-based repo. Look for a folder called `scripts` or `utils`.
+* **Action:** Write a script (e.g., "Image Resizer using Pillow" or "CSV to JSON converter") and submit it.
+* *Note:* Even if it's simple, getting a PR merged boosts confidence.
+
+
+
+#### **Day 6: Jan 18 - Finishing Touches**
+
+* **DSA (45m):** Topic: **Recursion**.
+* *Problem:* "Fibonacci Number" (LeetCode 509). Try both recursion and loop.
+
+
+* **ML/PyTorch:**
+* **Task:** Save your trained model (`torch.save`) and write a Python script to load it and make a prediction on a new image.
+* **Why?** This "Model Inference" script is what you will connect to your website later.
+
+
+
+---
+
+### **The "One-Shot" Web Revision (Jan 19)**
+
+This is your **HTML/CSS Refresh Day**. Do not spend weeks on this. You just need to recall the layout systems.
+
+* **Morning (HTML5):**
+* Revise Semantic Tags (`<header>`, `<nav>`, `<section>`, `<footer>`). Don't just use `div` everywhere.
+* Forms: `<input>`, `<button>`, `<form>`.
+
+
+* **Afternoon (CSS Flexbox):**
+* This is the most important thing for React.
+* **Game:** Play **Flexbox Froggy** (online game) to revise `justify-content` and `align-items`.
+
+
+* **Evening (CSS Grid):**
+* Play **Grid Garden**. Understand the difference between Flex (1D) and Grid (2D).
+
+
+* **Night Project:**
+* Build a **"Portfolio Landing Page"**.
+* **Requirements:** A Photo (round), a Bio, and a Grid of "Skills" cards. Responsive (works on mobile).
+
+
+
+---
+
+### **Jan 20 onwards...**
+
+Start the **JavaScript Roadmap** we planned earlier.
+
+**Summary for Today (Jan 13):**
+
+1. Install PyTorch.
+2. Solve "Move Zeroes" on LeetCode.
+3. Join SWOC Discords.
+
+All set? Start the DSA problem right now!
+
+
+* **Monday - Friday:**
+    * 1 DSA Problem per day (Strict rule).
+    * Focus on college academics.
+* **Weekends (Sat/Sun):**
+    * Deep work on ML.
+    * Pick one "Hard" problem or learn a new tech (e.g., LangChain for AI).
+    * Participate in 1 LeetCode Contest (Sunday).
+
+---
+
+## 🛠️ Tech Stack & Resources
+
+### 1. Data Structures & Algorithms (C++)
+* **Platform:** LeetCode (Primary), GeeksForGeeks (for theory revision).
+* **Key Patterns to Master:**
+    1.  Two Pointers (for sorted arrays).
+    2.  Sliding Window (for subarrays/substrings).
+    3.  Fast & Slow Pointers (Linked Lists/Cycles).
+    4.  BFS/DFS (Graphs/Trees).
+
+### 2. Machine Learning (Python)
+* **Libraries:** Pandas, Scikit-Learn, NLTK (for text).
+* **Deployment:** Streamlit (UI), Hugging Face Spaces (Hosting).
+* **Source Code Management:** Git & GitHub (Non-negotiable).
+
+### 3. Project Ideas (Select One)
+1.  **Smart Resume Screener (NLP):** Upload PDF -> Get Keyword Match Score.
+2.  **Movie Recommender:** Select Movie -> Get Suggestions.
+3.  **Stock Price Visualizer:** Select Stock -> See predicted trend (Time Series).
+
+---
+
+## 📝 Checklist for Today
+- [ ] Save this file.
+- [ ] Create/Login to LeetCode.
+- [ ] Create/Login to Kaggle.
