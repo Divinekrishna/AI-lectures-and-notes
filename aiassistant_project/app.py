@@ -1,6 +1,14 @@
 import streamlit as st
 import os
+import sys
+from pathlib import Path
 from dotenv import load_dotenv
+
+# Add the current directory to the path for imports
+current_dir = Path(__file__).parent
+if str(current_dir) not in sys.path:
+    sys.path.insert(0, str(current_dir))
+
 from src.utils.file_handler import FileHandler
 from src.utils.llm_handler import LLMHandler
 
@@ -307,7 +315,7 @@ elif page == "💬 Chatbot":
     st.title("💬 AI Chatbot")
     
     if not st.session_state.llm_handler:
-        st.error("❌ LLM API not configured. Please set OPENAI_API_KEY in .env file")
+        st.error("❌ LLM API not configured. Please set GEMINI_API_KEY in .env file")
     else:
         # Chat history
         for msg in st.session_state.messages:
